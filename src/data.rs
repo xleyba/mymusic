@@ -14,13 +14,12 @@ pub struct Album<'a> {
 impl<'a> Album<'a> {
     // A generic "new" function if you have multiple ways to get
     // initialize Album this may help
-    fn new<V>(
+    pub fn new<V>(
         artist: Option<V>,
         name: Option<V>,
         year: Option<V>,
         media_type: Option<V>,
         extra: Option<V>,
-        songs: Option<V>,
     ) -> Self
     where
         V: Into<&'a str>,
