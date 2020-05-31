@@ -1,6 +1,6 @@
+use serde::{Deserialize, Serialize};
 
-
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 // Defined a lifetime for it as it use string references
 pub struct Album<'a> {
     artist: Option<&'a str>,
@@ -8,7 +8,7 @@ pub struct Album<'a> {
     year: Option<&'a str>,
     media_type: Option<&'a str>,
     extra: Option<&'a str>,
-    songs: Option<Songs<'a>>,
+    songs: Option<Songs>,
 }
 
 impl<'a> Album<'a> {
@@ -38,20 +38,20 @@ impl<'a> Album<'a> {
     }
 }
 
-
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 // Defined a lifetime for it as it use string references
-pub struct Song<'a> {
-    number: Option<&'a str>,
-    name: Option<&'a str>,
+pub struct Song {
+    number: Option<String>,
+    name: Option<String>,
 }
 
-#[derive(Debug)]
-pub struct Songs<'a> {
-    songs: Vec<Song<'a>>,
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Songs {
+    songs: Vec<Song>,
 }
 
-#[derive(Debug)]
+/* #[derive(Debug, Serialize, Deserialize)]
 pub struct Albums<'a> {
     albums: Vec<Album<'a>>,
 }
+*/
