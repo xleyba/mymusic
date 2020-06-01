@@ -4,12 +4,12 @@ use serde::{Deserialize, Serialize};
 // Using references to avoid allocating for every string.Album.Album
 // Defined a lifetime for it as it use string references
 pub struct Album {
-    artist: Option<String>,
-    name: Option<String>,
-    year: Option<String>,
-    media_type: Option<String>,
-    extra: Option<String>,
-    songs: Option<Songs>,
+    pub artist: Option<String>,
+    pub name: Option<String>,
+    pub year: Option<String>,
+    pub media_type: Option<String>,
+    pub extra: Option<String>,
+    pub songs: Option<Songs>,
 }
 
 impl<'a> Album {
@@ -21,8 +21,7 @@ impl<'a> Album {
         year: Option<String>,
         media_type: Option<String>,
         extra: Option<String>,
-    ) -> Self
-    {
+    ) -> Self {
         // helper function to map the inputs into the fields
         let helper_fn = |x: Option<String>| x.map_or(None, |m| Some(m.to_owned()));
 

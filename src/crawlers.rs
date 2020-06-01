@@ -8,7 +8,7 @@ fn is_valid(entry: &DirEntry) -> bool {
         .unwrap_or(false)
 }
 
-pub fn get_dirs<'a>(dir_ini: &'a str) -> Vec<String> {
+pub fn get_dirs<'a>(dir_ini: &'a str) -> Option<Vec<String>> {
     let mut dirs = Vec::new();
 
     for entry in WalkDir::new(&dir_ini)
@@ -25,7 +25,11 @@ pub fn get_dirs<'a>(dir_ini: &'a str) -> Vec<String> {
         }
     }
 
-    dirs
+    if dirs.len() > 0 {
+        return Some(dirs);
+    }
+
+    None
 }
 
 pub fn get_files<'a>(dir_ini: &'a str) -> Vec<String> {
