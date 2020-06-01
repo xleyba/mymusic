@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
+// Using references to avoid allocating for every string.Album.Album
 // Defined a lifetime for it as it use string references
 pub struct Album<'a> {
     artist: Option<&'a str>,
@@ -44,6 +45,27 @@ pub struct Song {
     number: Option<String>,
     name: Option<String>,
 }
+
+impl Song {
+    // A generic "new" function if you have multiple ways to get
+    // initialize Album this may help
+    pub fn new(
+        number: Option<String>,
+        name: Option<String>,
+    ) -> Self
+    {
+        // helper function to map the inputs into the fields
+        let helper_fn = |x: Option<String>| x.map_or(None, |m| Some(m));
+
+        Song {
+            number: helper_fn(number),
+            name: helper_fn(name),
+        }
+    }
+}
+
+
+
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Songs {
