@@ -3,30 +3,28 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Serialize, Deserialize)]
 // Using references to avoid allocating for every string.Album.Album
 // Defined a lifetime for it as it use string references
-pub struct Album<'a> {
-    artist: Option<&'a str>,
-    name: Option<&'a str>,
-    year: Option<&'a str>,
-    media_type: Option<&'a str>,
-    extra: Option<&'a str>,
+pub struct Album {
+    artist: Option<String>,
+    name: Option<String>,
+    year: Option<String>,
+    media_type: Option<String>,
+    extra: Option<String>,
     songs: Option<Songs>,
 }
 
-impl<'a> Album<'a> {
+impl<'a> Album {
     // A generic "new" function if you have multiple ways to get
     // initialize Album this may help
-    pub fn new<V>(
-        artist: Option<V>,
-        name: Option<V>,
-        year: Option<V>,
-        media_type: Option<V>,
-        extra: Option<V>,
+    pub fn new(
+        artist: Option<String>,
+        name: Option<String>,
+        year: Option<String>,
+        media_type: Option<String>,
+        extra: Option<String>,
     ) -> Self
-    where
-        V: Into<&'a str>,
     {
         // helper function to map the inputs into the fields
-        let helper_fn = |x: Option<V>| x.map_or(None, |m| Some(m.into()));
+        let helper_fn = |x: Option<String>| x.map_or(None, |m| Some(m.to_owned()));
 
         Album {
             artist: helper_fn(artist),
@@ -42,20 +40,16 @@ impl<'a> Album<'a> {
 #[derive(Debug, Serialize, Deserialize)]
 // Defined a lifetime for it as it use string references
 pub struct Song {
-    number: Option<String>,
-    name: Option<String>,
+    pub number: Option<String>,
+    pub name: Option<String>,
 }
 
 impl Song {
     // A generic "new" function if you have multiple ways to get
     // initialize Album this may help
-    pub fn new(
-        number: Option<String>,
-        name: Option<String>,
-    ) -> Self
-    {
+    pub fn new(number: Option<String>, name: Option<String>) -> Self {
         // helper function to map the inputs into the fields
-        let helper_fn = |x: Option<String>| x.map_or(None, |m| Some(m));
+        let helper_fn = |x: Option<String>| x.map_or(None, |m| Some(m.to_owned()));
 
         Song {
             number: helper_fn(number),
@@ -63,9 +57,6 @@ impl Song {
         }
     }
 }
-
-
-
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Songs {
