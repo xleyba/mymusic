@@ -59,7 +59,7 @@ impl Song {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Songs {
-    songs: Vec<Song>,
+    pub songs: Vec<Song>,
 }
 
 /* #[derive(Debug, Serialize, Deserialize)]

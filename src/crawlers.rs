@@ -1,10 +1,20 @@
 use walkdir::{DirEntry, WalkDir};
 
-fn is_valid(entry: &DirEntry) -> bool {
+fn is_valid_dir(entry: &DirEntry) -> bool {
     entry
         .file_name()
         .to_str()
         .map(|s| s.contains("[FLAC]") || s.contains("[DD]") || s.contains("[VINYL]"))
+        .unwrap_or(false)
+}
+
+fn is_valid_file(entry: &DirEntry) -> bool {
+    entry
+        .path()
+        .extension()
+        .unwrap()
+        .to_str()
+        .map(|s| s.contains("flac"))
         .unwrap_or(false)
 }
 
@@ -16,8 +26,12 @@ pub fn get_dirs<'a>(dir_ini: &'a str) -> Option<Vec<String>> {
         .filter_entry(|e| e.file_type().is_dir()) // && is_valid(e)
         .filter_map(|e| e.ok())
     {
-        //println!("Dir: {}, es valid: {}", entry.path().display(), is_valid(&entry));
-        if is_valid(&entry) {
+        println!(
+            "Dir: {}, es valid: {}",
+            entry.path().display(),
+            is_valid_dir(&entry)
+        );
+        if is_valid_dir(&entry) {
             match entry.path().to_str() {
                 Some(dir) => dirs.push(String::from(dir)),
                 None => (),
@@ -32,8 +46,31 @@ pub fn get_dirs<'a>(dir_ini: &'a str) -> Option<Vec<String>> {
     None
 }
 
-pub fn get_files<'a>(dir_ini: &'a str) -> Vec<String> {
-    Vec::new()
+pub fn get_files<'a>(dir_ini: &'a str) -> Option<Vec<String>> {
+    let mut songs = Vec::new();
+
+    for entry in WalkDir::new(&dir_ini).into_iter().filter_map(|e| e.ok()) {
+        if entry.file_type().is_file()
+            && entry
+                .path()
+                .extension()
+                .unwrap()
+                .to_str()
+                .unwrap()
+                .contains("flac")
+        {
+            println!("Linea file: {}", entry.path().to_str().unwrap());
+            songs.push(String::from(
+                entry.path().file_stem().unwrap().to_str().unwrap(),
+            ));
+        }
+    }
+
+    if songs.len() > 0 {
+        return Some(songs);
+    }
+
+    None
 }
 
 // Unit test
