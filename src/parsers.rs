@@ -1,5 +1,6 @@
 use crate::data::Album;
 use crate::data::Song;
+use crate::error::{MyMusicError, Result};
 use regex::Error;
 use regex::Match;
 use regex::Regex;
@@ -12,7 +13,9 @@ pub fn parse_album<'a>(album_str: &'a str) -> Album {
     }
     let path = Path::new(album_str);
 
-    let cap = RE.captures(path.file_stem().unwrap().to_str().unwrap()).unwrap();
+    let cap = RE
+        .captures(path.file_stem().unwrap().to_str().unwrap())
+        .unwrap();
 
     let helper_fn = |x: Option<Match>| x.map_or(None, |m| Some(m.as_str().to_owned()));
 

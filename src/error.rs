@@ -11,6 +11,8 @@ pub enum MyMusicError {
     Serde(#[cause] serde_json::Error),
     #[fail(display = "An unknown error has occurred.")]
     UnknownError,
+    #[fail(display = "No files to process")]
+    NoFilesError,
 }
 
 impl From<io::Error> for MyMusicError {

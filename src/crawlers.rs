@@ -1,3 +1,4 @@
+use crate::error::Result;
 use walkdir::{DirEntry, WalkDir};
 
 fn is_valid_dir(entry: &DirEntry) -> bool {
@@ -18,7 +19,7 @@ fn is_valid_file(entry: &DirEntry) -> bool {
         .unwrap_or(false)
 }
 
-pub fn get_dirs<'a>(dir_ini: &'a str) -> Option<Vec<String>> {
+pub fn get_dirs<'a>(dir_ini: &'a str) -> Result<Option<Vec<String>>> {
     let mut dirs = Vec::new();
 
     for entry in WalkDir::new(&dir_ini)
@@ -40,10 +41,10 @@ pub fn get_dirs<'a>(dir_ini: &'a str) -> Option<Vec<String>> {
     }
 
     if dirs.len() > 0 {
-        return Some(dirs);
+        return Ok(Some(dirs));
     }
 
-    None
+    Ok(None)
 }
 
 pub fn get_files<'a>(dir_ini: &'a str) -> Option<Vec<String>> {
