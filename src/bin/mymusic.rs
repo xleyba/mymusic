@@ -1,4 +1,54 @@
-fn main() {}
+#[macro_use]
+extern crate clap;
+use clap::{App, Arg, SubCommand};
+use structopt::StructOpt;
+
+use std::env;
+
+#[macro_use]
+extern crate log;
+extern crate env_logger;
+
+use env_logger::Env;
+use std::path::Path;
+
+// Define struct for command line processing
+#[derive(StructOpt, Debug)]
+#[structopt(name = "mymusic", about = "My music parser & browser")]
+enum Opt {
+    #[structopt(name = "parse")]
+    Parse {
+        #[structopt(
+            value_name = "dir",
+            about = "The directory where to parse.",
+            help = "The directory where to parse."
+        )]
+        dir: String,
+    },
+}
+
+fn main() {
+    // Init logger
+    let env = Env::default()
+        .filter_or("LOG_LEVEL", "debug")
+        .write_style_or("LOG_STYLE", "always");
+
+    env_logger::init_from_env(env);
+    info!("Starting application");
+
+    // Start to process command line
+    let opt = Opt::from_args();
+
+    match Opt::from_args() {
+        Opt::Parse { dir } => {
+            if Path::new(&dir).exists() {
+                info!("Path {} exists", &dir);
+            } else {
+                error!("Wrong path {} provided", &dir);
+            }
+        }
+    }
+}
 
 /*
 fn generate_music_collection() {
