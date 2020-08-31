@@ -5,10 +5,12 @@ fn main() {
 }
 
 fn generate_music_collection() {
-    if let Some(mydirs) = crawlers::get_dirs("/Users/jleyba/Documents/testo").unwrap() {
+    if let Some(mydirs) = crawlers::get_dirs("/Users/jleyba/Documents/test").unwrap() {
         let mut albums: Vec<data::Album> = Vec::new();
 
         for entry in mydirs {
+            println!("Entry: {}", &entry);
+
             let mut album = parsers::parse_album(&entry);
 
             if let Some(myfiles) = crawlers::get_files(&entry) {
@@ -25,10 +27,11 @@ fn generate_music_collection() {
                 }
 
                 albums.push(album);
+            } else {
+                albums.push(album);
             }
 
             serializer::serialize_albums(&albums);
-
         }
     } else {
         println!("No files");
