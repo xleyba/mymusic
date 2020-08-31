@@ -1,9 +1,6 @@
-use mymusic::{crawlers, data, parsers, serializer, MyMusicError, Result};
+fn main() {}
 
-fn main() {
-    generate_music_collection();
-}
-
+/*
 fn generate_music_collection() {
     if let Some(mydirs) = crawlers::get_dirs("/Users/jleyba/Documents/test").unwrap() {
         let mut albums: Vec<data::Album> = Vec::new();
@@ -37,3 +34,5 @@ fn generate_music_collection() {
         println!("No files");
     }
 }
+
+*/
