@@ -1,0 +1,1 @@
+[{"artist":"artista dos","name":"album uno","year":"1981","media_type":"DD","extra":"","songs":{"songs":[{"number":"02","name":"song 2"},{"number":"01","name":"song 1"}]}},{"artist":"artista uno","name":"album dos","year":"1990","media_type":"VINYL","extra":"","songs":null},{"artist":"artista uno","name":"album uno","year":"1980","media_type":"FLAC","extra":"","songs":null}]
