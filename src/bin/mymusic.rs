@@ -62,6 +62,6 @@ fn main() {
 
 
 fn generate_music_collection(dir_ini: &str) {
-    
+
 }
 
