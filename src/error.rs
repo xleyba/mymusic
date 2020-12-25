@@ -1,6 +1,7 @@
 extern crate failure;
 use failure::Fail;
 use std::io;
+use regex::Error;
 
 #[derive(Fail, Debug)]
 pub enum MyMusicError {
@@ -9,6 +10,8 @@ pub enum MyMusicError {
     /// Serialization or deserialization error
     #[fail(display = "{}", _0)]
     Serde(#[cause] serde_json::Error),
+    #[fail(display = "{}", _0)]
+    Regex(#[cause] regex::Error),
     #[fail(display = "An unknown error has occurred.")]
     UnknownError,
     #[fail(display = "No files to process")]

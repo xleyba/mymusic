@@ -19,7 +19,7 @@ fn is_valid_file(entry: &DirEntry) -> bool {
         .unwrap_or(false)
 }
 
-pub fn get_dirs<'a>(dir_ini: &'a str) -> Result<Option<Vec<String>>> {
+pub fn get_dirs<'a>(dir_ini: &'a str) -> Option<Vec<String>> {
     let mut dirs = Vec::new();
 
     for entry in WalkDir::new(&dir_ini)
@@ -27,7 +27,7 @@ pub fn get_dirs<'a>(dir_ini: &'a str) -> Result<Option<Vec<String>>> {
         .filter_entry(|e| e.file_type().is_dir()) // && is_valid(e)
         .filter_map(|e| e.ok())
     {
-        println!(
+        debug!(
             "Dir: {}, es valid: {}",
             entry.path().display(),
             is_valid_dir(&entry)
@@ -41,10 +41,10 @@ pub fn get_dirs<'a>(dir_ini: &'a str) -> Result<Option<Vec<String>>> {
     }
 
     if dirs.len() > 0 {
-        return Ok(Some(dirs));
+        return Some(dirs);
     }
 
-    Ok(None)
+    None
 }
 
 pub fn get_files<'a>(dir_ini: &'a str) -> Option<Vec<String>> {
@@ -60,7 +60,7 @@ pub fn get_files<'a>(dir_ini: &'a str) -> Option<Vec<String>> {
                 .unwrap()
                 .contains("flac")
         {
-            println!("Linea file: {}", entry.path().to_str().unwrap());
+            debug!("Linea file: {}", entry.path().to_str().unwrap());
             songs.push(String::from(
                 entry.path().file_stem().unwrap().to_str().unwrap(),
             ));
@@ -81,7 +81,7 @@ mod tests {
     use super::*;
 
     /* #[test]
-    fn ok_values() {
+    fn okpp_values() {
         let album = parse_album("myArtist - myAlbum (2020) [FLAC] {extra info}").unwrap();
         assert_eq!("myArtist", album.artist.unwrap());
     }*/

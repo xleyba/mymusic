@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq)]
 // Using references to avoid allocating for every string.Album.Album
 // Defined a lifetime for it as it use string references
 pub struct Album {
@@ -36,7 +36,7 @@ impl<'a> Album {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize,PartialEq, Eq)]
 // Defined a lifetime for it as it use string references
 pub struct Song {
     pub number: Option<String>,
@@ -57,13 +57,12 @@ impl Song {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize,PartialEq, Eq)]
 pub struct Songs {
-    pub songs: Vec<Song>,
+    pub songs: Option<Vec<Song>>,
 }
 
-/* #[derive(Debug, Serialize, Deserialize)]
-pub struct Albums<'a> {
-    albums: Vec<Album<'a>>,
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Albums {
+    albums: Option<Vec<Album<>>>,
 }
-*/

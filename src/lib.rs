@@ -1,6 +1,10 @@
 #[macro_use]
 extern crate lazy_static;
 
+#[macro_use]
+extern crate log;
+extern crate env_logger;
+
 pub mod crawlers;
 pub mod data;
 pub mod error;
